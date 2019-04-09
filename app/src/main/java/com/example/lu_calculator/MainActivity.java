@@ -246,9 +246,13 @@ public class MainActivity extends AppCompatActivity {
             result.setText("Error");
             expression.setText("");
         }
-        else{
+        //only allow one operator
+        else if(input.indexOf(operator, 1)==-1){
             operator=inputOperator;
             input = inputString(inputOperator);
+            expression.setText(input);
+        }else{
+            input = expression.getText().toString();
             expression.setText(input);
         }
     }
