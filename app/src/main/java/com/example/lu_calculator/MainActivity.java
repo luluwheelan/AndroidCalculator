@@ -15,13 +15,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView expression, result, one, two, three,
         four, five, six, seven, eight, nine, zero,
     mul, minus, dot, equal, plus, divide;
-    private String input, operator;
+    private String input = "";//save input from user
     private Float operand1, operand2;
-    private static final char PLUS = '+';
-    private static final char MINUS = '-';
-    private static final char MUL = '*';
-    private static final char DIVIDE = '/';
-    private char ACTION;
+    private char operator;
 
 
     @Override
@@ -37,90 +33,90 @@ public class MainActivity extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "1");
+                clearScreen();
+                input = inputString('1');
+                expression.setText(input);
             }
         });
 
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "2");
+                clearScreen();
+                input = inputString('2');
+                expression.setText(input);
             }
         });
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "3");
+                clearScreen();
+                input = inputString('3');
+                expression.setText(input);
             }
         });
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "4");
+                clearScreen();
+                input = inputString('4');
+                expression.setText(input);
             }
         });
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "5");
+                clearScreen();
+                input = inputString('5');
+                expression.setText(input);
             }
         });
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "6");
+                clearScreen();
+                input = inputString('6');
+                expression.setText(input);
             }
         });
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "7");
+                clearScreen();
+                input = inputString('7');
+                expression.setText(input);
             }
         });
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "8");
+                clearScreen();
+                input = inputString('8');
+                expression.setText(input);
             }
         });
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "9");
+                clearScreen();
+                input = inputString('9');
+                expression.setText(input);
             }
         });
         zero.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + "0");
+                clearScreen();
+                input = inputString('0');
+                expression.setText(input);
             }
         });
         dot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //clearScreen();
-                input = expression.getText().toString();
-                expression.setText(input + ".");
+                clearScreen();
+                input = inputString('.');
+                expression.setText(input);
             }
         });
 
@@ -128,38 +124,34 @@ public class MainActivity extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ACTION = PLUS;
-                compute();
-                expression.setText(String.valueOf(operand1)+"+");
-                result.setText("");
+                input = inputString('+');
+                operator='+';
+                expression.setText(input);
 
             }
         });
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ACTION = MINUS;
-                compute();
-                expression.setText(String.valueOf(operand1)+"-");
-                result.setText("");
+                input = inputString('-');
+                operator='-';
+                expression.setText(input);
             }
         });
         mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ACTION = MUL;
-                compute();
-                expression.setText(String.valueOf(operand1)+"*");
-                result.setText("");
+                input = inputString('*');
+                operator='*';
+                expression.setText(input);
             }
         });
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ACTION = DIVIDE;
-                compute();
-                expression.setText(String.valueOf(operand1)+"/");
-                result.setText("");
+                input = inputString('/');
+                operator='/';
+                expression.setText(input);
             }
         });
         equal.setOnClickListener(new View.OnClickListener()
@@ -167,28 +159,43 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                compute();
-                expression.setText(expression.getText().toString()+String.valueOf(operand2)+"="+String.valueOf(operand1));
+                if(CheckInput(input))//validate operands and operator
+                {
+                    //input=input+"="+String.valueOf(compute(input));
+                    result.setText(String.valueOf(compute(input)));//display result
+                }
+                else //show error
+                {
+                    result.setText("Error");
+                }
             }
         });
-
-
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     public void clearScreen(){
-        expression.setText("");
-        result.setText("");
+        if(result.getText().toString().trim().length() > 0){
+            expression.setText("");
+            result.setText("");
+            input = "";
+        }
+    }
+
+    public boolean CheckInput(String input)    //validate input
+    {
+        if(input.length()<=2)//input length more than 2 chars
+        {
+            return false;
+        }
+        if(input.indexOf(operator, 1)==-1) //if does not have a operator, return false
+        {
+            return false;
+        }
+
+        if(input.endsWith(String.valueOf(operator))) //input string can not end with a operator
+        {
+            return false;
+        }
+        return true;
     }
 
     private void setUIElement(){
@@ -215,35 +222,46 @@ public class MainActivity extends AppCompatActivity {
         divide = findViewById(R.id.divide);
     }
 
-    private void compute(){
-        if (!Float.isNaN(operand1)){
-            operand2=Float.parseFloat(expression.getText().toString());
+    public String inputString(char c)
+    {
+        input=input+String.valueOf(c);
+        return input;
+    }
 
-            switch(ACTION) {
-                case PLUS:
-                    operand1 = operand1 + operand2;
-                    break;
-                case MINUS:
-                    operand1 = operand1 - operand2;
-                    break;
-                case DIVIDE:
-                    try {
-                        operand1 = operand1 / operand2;
-                        break;
-                    }
-                    catch(Exception e)
-                    {
-                        result.setText("Error");
-                    }
-                    break;
-                case MUL:
-                    operand1 = operand1 * operand2;
-                    break;
-            }
+    private float compute(String input){
+        int indexOfOperator;
+        indexOfOperator=input.indexOf(operator,1); //get index from input string
+        if(input.length()>=3)
+        {
+            operand1=Float.parseFloat(input.substring(0, indexOfOperator));
+            operand2=Float.parseFloat(input.substring(indexOfOperator + 1, input.length()));
         }
-        else{
-            operand1=Float.parseFloat(expression.getText().toString());
+        switch (operator)
+        {
+            case '+':
+                operand1=operand1+operand2;
+                break;
+            case '-':
+                operand1=operand1-operand2;
+                break;
+            case '*':
+                operand1=operand1*operand2;
+                break;
+            case '/':
+                if(operand2!=0)
+                {
+                    operand1=operand1/operand2;
+                }
+                else
+                {
+                    operand1=0f;
+                    result.setText("Error");
+                }
+                break;
+            default:
+                break;
         }
+        return operand1;         //return result
     }
 
 
