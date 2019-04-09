@@ -116,15 +116,19 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clearScreen();
 
-                //only one dot allowed
-                if(input.contains(".")){
-                    input = expression.getText().toString();
-                }else {
-                    //concat input string
+                if (input.contains(".")) {
+                    //int count = input.length() - input.replaceAll(".","").length();
+                    if((input.indexOf(operator, 1)!=-1) && (countDots(input) < 2)){
+                        input = inputString('.');
+                        expression.setText(input);
+                    }else{
+                        input = expression.getText().toString();
+                        expression.setText(input);
+                    }
+                } else {
                     input = inputString('.');
                     expression.setText(input);
                 }
-
             }
         });
 
@@ -200,6 +204,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private int countDots(String input){
+        int count = 0;
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) == '.') {
+                count++;
+            }
+        }
+        return count;
+    }
     private void setUIElement(){
         // Assign variables
         expression = findViewById(R.id.expression);
@@ -228,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         //if input a operator without a operand or result has value, show error
         //this application does not support continue calculate.
         //when a result presented, any number input will start a new task.
+
         if(input.length()<=0 || result.length()>0){
             result.setText("Error");
             expression.setText("");
