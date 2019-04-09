@@ -115,8 +115,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearScreen();
-                input = inputString('.');
-                expression.setText(input);
+
+                //only show one dot if user put more than one dot
+                if(input.endsWith(".") || input.contains(".")){
+                    input = expression.getText().toString();
+                }else {
+                    input = inputString('.');
+                    expression.setText(input);
+                }
+
             }
         });
 
@@ -124,34 +131,26 @@ public class MainActivity extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                input = inputString('+');
-                operator='+';
-                expression.setText(input);
+                validateOperator('+');
 
             }
         });
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                input = inputString('-');
-                operator='-';
-                expression.setText(input);
+                validateOperator('-');
             }
         });
         mul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                input = inputString('*');
-                operator='*';
-                expression.setText(input);
+                validateOperator('*');
             }
         });
         divide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                input = inputString('/');
-                operator='/';
-                expression.setText(input);
+                validateOperator('/');
             }
         });
         equal.setOnClickListener(new View.OnClickListener()
@@ -167,11 +166,13 @@ public class MainActivity extends AppCompatActivity {
                 else //show error
                 {
                     result.setText("Error");
+                    expression.setText("");
                 }
             }
         });
     }
 
+    //if result has a value then clear everything
     public void clearScreen(){
         if(result.getText().toString().trim().length() > 0){
             expression.setText("");
@@ -222,12 +223,27 @@ public class MainActivity extends AppCompatActivity {
         divide = findViewById(R.id.divide);
     }
 
+    public void validateOperator(char inputOperator){
+        //if input a operator without a operand or result has value, show error
+        if(input.length()<=0 || result.length()>0){
+            result.setText("Error");
+            expression.setText("");
+        }
+        else{
+            operator=inputOperator;
+            input = inputString(inputOperator);
+            expression.setText(input);
+        }
+    }
+
+    //concat input
     public String inputString(char c)
     {
         input=input+String.valueOf(c);
         return input;
     }
 
+    //calculate and return result
     private float compute(String input){
         int indexOfOperator;
         indexOfOperator=input.indexOf(operator,1); //get index from input string
