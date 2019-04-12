@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 //    Declare variables
     private TextView expression, result, one, two, three,
@@ -33,8 +35,11 @@ public class MainActivity extends AppCompatActivity {
         one.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                TextView current = findViewById(v.getId());
                 clearScreen();
-                input = inputString('1');
+                //input = inputString('1');
+                input = inputString(current.getText().charAt(0));
                 expression.setText(input);
             }
         });
