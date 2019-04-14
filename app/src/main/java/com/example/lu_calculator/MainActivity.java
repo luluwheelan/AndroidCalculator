@@ -115,10 +115,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearScreen();
-
+//Check dot position and the number of dots, make sure max one dot for a operand
                 if (input.contains(".")) {
-                    //int count = input.length() - input.replaceAll(".","").length();
-                    if((input.indexOf(operator, 1)!=-1) && (countDots(input) < 2)){
+                    if((input.indexOf(operator, 1)!=-1)&& (input.indexOf(operator) > input.indexOf(".") ) && (countDots(input) < 2) ){
                         input = inputString('.');
                         expression.setText(input);
                     }else{
@@ -165,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
             {
                 if(CheckInput(input))//validate operands and operator
                 {
-                    //input=input+"="+String.valueOf(compute(input));
                     result.setText(String.valueOf(compute(input)));//display result
                 }
                 else //show error
@@ -186,7 +184,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean CheckInput(String input)    //validate input
+    //validate input
+    public boolean CheckInput(String input)
     {
         if(input.length()<=2)//input length more than 2 chars
         {
